@@ -71,7 +71,7 @@ module GoodData
 
       ts = DateTime.now.strftime('%s').to_i + opts[:valid]
       obj = {
-        'email' => login,
+        'email' => opts[:gooddata_login] || login,
         'validity' => ts
       }
 
@@ -112,8 +112,8 @@ module GoodData
     # @param [String] login Email address used for logging into gooddata
     # @param [String] provider Name of SSO provider
     # @return [GoodData::Rest::Client] Instance of REST client
-    def connect_sso(login, provider)
-      url = sso_url(login, provider)
+    def connect_sso(login, provider, opts = {})
+      url = sso_url(login, provider, opts)
 
       params = {
         :x_gdc_request => "#{GoodData::Rest::Connection.generate_string}:#{GoodData::Rest::Connection.generate_string}"
